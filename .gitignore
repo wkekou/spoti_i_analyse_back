@@ -1,0 +1,5 @@
+db.sqlite3
+*.bak
+*.dat
+*.dir
+celerybeat-*
