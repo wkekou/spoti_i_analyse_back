@@ -4,7 +4,7 @@ from .models import RecentTrack, TopArtist, TopTrack, ListeningHistory, TopGenre
 class RecentTrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecentTrack
-        fields = '__all__'
+        fields = ['name', 'artist', 'artist_image', 'played_at']
 
 class TopArtistSerializer(serializers.ModelSerializer):
     class Meta:

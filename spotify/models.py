@@ -3,6 +3,7 @@ from django.db import models
 class RecentTrack(models.Model):
     name = models.CharField(max_length=255)
     artist = models.CharField(max_length=255)
+    artist_image = models.URLField(max_length=200, blank=True)
     played_at = models.DateTimeField()
 
 class TopArtist(models.Model):

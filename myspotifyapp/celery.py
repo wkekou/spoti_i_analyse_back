@@ -3,8 +3,6 @@ import os
 from celery import Celery
 from celery.schedules import crontab
 
-#from Spotify.myspotifyapp.spotify.tasks import update_spotify_data_task
-
 # Définir le module de configuration Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myspotifyapp.settings')
 
@@ -25,6 +23,6 @@ def debug_task(self):
 def setup_periodic_tasks(sender, **kwargs):
     # Appelle update_spotify_data_task toutes les minutes pour les tests
     sender.add_periodic_task(
-        crontab(minute='*/1'),  # Toutes les minutes pour vérifier rapidement
+        crontab(minute='*/30'),  # Exécution toutes les 30 minutes
         update_spotify_data_task.s(),
     )
