@@ -16,6 +16,8 @@ class TopArtist(models.Model):
 class TopTrack(models.Model):
     name = models.CharField(max_length=255)
     artist = models.CharField(max_length=255)
+    artist_image = models.URLField(max_length=200, blank=True)  # Nouveau champ pour l'image
+    played_at = models.DateTimeField()  # Nouveau champ pour la date de lecture
     popularity = models.IntegerField()
 
 class ListeningHistory(models.Model):

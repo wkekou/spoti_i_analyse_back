@@ -36,10 +36,17 @@ def fetch_spotify_data():
     # Récupérer les artistes les plus écoutés
     try:
         top_artists = sp.current_user_top_artists(limit=10)
+        followed_artists = sp.current_user_followed_artists(limit=50)['artists']['items']
+        followed_artists_ids = {artist['id'] for artist in followed_artists}
+        
         for artist in top_artists['items']:
             logger.info(f"Saving artist: {artist['name']}")
+            is_followed = artist['id'] in followed_artists_ids
             TopArtist.objects.get_or_create(
                 name=artist['name'],
+                image_url=artist['images'][0]['url'] if artist['images'] else '',
+                description=artist['bio'] if 'bio' in artist else '',
+                is_followed=is_followed,
                 popularity=artist['popularity']
             )
     except Exception as e:
@@ -49,10 +56,14 @@ def fetch_spotify_data():
     try:
         top_tracks = sp.current_user_top_tracks(limit=10)
         for track in top_tracks['items']:
-            logger.info(f"Saving track: {track['name']} by {track['artists'][0]['name']}")
+            artist = track['artists'][0]
+            artist_image = artist['images'][0]['url'] if artist['images'] else ''
+            logger.info(f"Saving track: {track['name']} by {artist['name']}")
             TopTrack.objects.get_or_create(
                 name=track['name'],
-                artist=track['artists'][0]['name'],
+                artist=artist['name'],
+                artist_image=artist_image,
+                played_at=track['played_at'],  # Assurez-vous d'ajouter cette information dans le backend
                 popularity=track['popularity']
             )
     except Exception as e:
