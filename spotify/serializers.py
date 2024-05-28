@@ -9,7 +9,7 @@ class RecentTrackSerializer(serializers.ModelSerializer):
 class TopArtistSerializer(serializers.ModelSerializer):
     class Meta:
         model = TopArtist
-        fields = '__all__'
+        fields = ['name', 'image_url', 'description', 'is_followed', 'popularity']
 
 class TopTrackSerializer(serializers.ModelSerializer):
     class Meta:

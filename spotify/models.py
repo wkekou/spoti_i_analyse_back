@@ -8,6 +8,9 @@ class RecentTrack(models.Model):
 
 class TopArtist(models.Model):
     name = models.CharField(max_length=255)
+    image_url = models.URLField(max_length=200, blank=True)  # Nouveau champ pour l'image
+    description = models.TextField(blank=True)  # Nouveau champ pour la description
+    is_followed = models.BooleanField(default=False) # Nouveau champ pour le suivi
     popularity = models.IntegerField()
 
 class TopTrack(models.Model):
