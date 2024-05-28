@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -146,6 +147,13 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
+# Configuration de la périodicité
+CELERY_BEAT_SCHEDULE = {
+    'fetch-spotify-data-every-minute': {
+        'task': 'spotify.tasks.fetch_spotify_data_task',
+        'schedule': crontab(minute='*/1'),  # Pour tester toutes les minutes
+    },
+}
 
 # Configuration pour affichage des infos Spotify dans la console
 

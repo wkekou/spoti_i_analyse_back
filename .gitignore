@@ -4,3 +4,4 @@ db.sqlite3
 *.dir
 celerybeat-*
 .cache
+spotify_env/*

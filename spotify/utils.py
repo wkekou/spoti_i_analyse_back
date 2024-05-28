@@ -25,27 +25,20 @@ def fetch_spotify_data():
             artist_image = artist['images'][0]['url'] if artist['images'] else ''
             logger.info(f"Saving track: {track['name']} by {artist['name']}")
             
-            # Enregistrement dans RecentTrack
-            
+            # Enregistrement dans RecentTrack          
             RecentTrack.objects.get_or_create(
                 name=track['name'],
                 artist=artist['name'],
                 artist_image=artist_image,
                 played_at=played_at
             )
-            
             # Enregistrement dans ListeningHistory
-            
             ListeningHistory.objects.create(
                 name=track['name'],
                 artist=artist['name'],
                 artist_image=artist_image,
                 played_at=played_at
-            )
-            
-            
-            
-            
+            )            
             
     except Exception as e:
         logger.error(f"Error fetching recent tracks: {e}")
@@ -92,7 +85,6 @@ def fetch_spotify_data():
         for genre in genres['genres']:
             logger.info(f"Saving genre: {genre}")
             genre_obj, created = Genre.objects.get_or_create(name=genre)
-            
             if created:
                 TopGenre.objects.get_or_create(genre=genre_obj, count=0)
             else:
