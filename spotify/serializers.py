@@ -27,6 +27,7 @@ class GenreSerializer(serializers.ModelSerializer):
         fields = ['name']
 
 class TopGenreSerializer(serializers.ModelSerializer):
+    genre = GenreSerializer()
     class Meta:
         model = TopGenre
         fields = ['genre', 'count']

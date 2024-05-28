@@ -92,6 +92,12 @@ def fetch_spotify_data():
         for genre in genres['genres']:
             logger.info(f"Saving genre: {genre}")
             genre_obj, created = Genre.objects.get_or_create(name=genre)
-            TopGenre.objects.get_or_create(genre=genre_obj, count=0)
+            
+            if created:
+                TopGenre.objects.get_or_create(genre=genre_obj, count=0)
+            else:
+                top_genre = TopGenre.objects.get(genre=genre_obj)
+                top_genre.count += 1
+                top_genre.save()
     except Exception as e:
         logger.error(f"Error fetching genres: {e}")

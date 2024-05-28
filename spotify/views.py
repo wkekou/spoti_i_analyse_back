@@ -1,5 +1,6 @@
 from django.http import HttpResponse, JsonResponse
 from rest_framework import generics
+from rest_framework.pagination import PageNumberPagination
 from .models import RecentTrack, TopArtist, TopTrack, ListeningHistory, TopGenre, Genre
 from .serializers import RecentTrackSerializer, TopArtistSerializer, TopTrackSerializer, ListeningHistorySerializer, TopGenreSerializer, GenreSerializer
 from .utils import fetch_spotify_data
@@ -25,14 +26,17 @@ class TopTrackList(generics.ListCreateAPIView):
     queryset = TopTrack.objects.all()
     serializer_class = TopTrackSerializer
 
-class ListeningHistoryList(generics.ListCreateAPIView):
-    queryset = ListeningHistory.objects.all()
+class ListeningHistoryList(generics.ListAPIView):
+    queryset = ListeningHistory.objects.all().order_by('-played_at')
     serializer_class = ListeningHistorySerializer
+    pagination_class = PageNumberPagination
     
 class GenreList(generics.ListCreateAPIView):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+    pagination_class = PageNumberPagination  # Utilisez la pagination
+
 
 class TopGenreList(generics.ListCreateAPIView):
-    queryset = TopGenre.objects.all()
+    queryset = TopGenre.objects.all().order_by('-count')[:10]  # Limitez à 10 genres les plus écoutés
     serializer_class = TopGenreSerializer
