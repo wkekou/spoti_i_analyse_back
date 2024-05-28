@@ -1,6 +1,6 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from .models import RecentTrack, TopArtist, TopTrack, Genre, TopGenre
+from .models import RecentTrack, TopArtist, TopTrack, Genre, TopGenre, ListeningHistory
 from django.conf import settings
 from datetime import datetime
 import pytz
@@ -24,12 +24,29 @@ def fetch_spotify_data():
             artist = track['artists'][0]
             artist_image = artist['images'][0]['url'] if artist['images'] else ''
             logger.info(f"Saving track: {track['name']} by {artist['name']}")
+            
+            # Enregistrement dans RecentTrack
+            
             RecentTrack.objects.get_or_create(
                 name=track['name'],
                 artist=artist['name'],
                 artist_image=artist_image,
                 played_at=played_at
             )
+            
+            # Enregistrement dans ListeningHistory
+            
+            ListeningHistory.objects.create(
+                name=track['name'],
+                artist=artist['name'],
+                artist_image=artist_image,
+                played_at=played_at
+            )
+            
+            
+            
+            
+            
     except Exception as e:
         logger.error(f"Error fetching recent tracks: {e}")
 

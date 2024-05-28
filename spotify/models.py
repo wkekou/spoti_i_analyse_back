@@ -21,8 +21,11 @@ class TopTrack(models.Model):
     popularity = models.IntegerField()
 
 class ListeningHistory(models.Model):
-    track = models.ForeignKey(RecentTrack, on_delete=models.CASCADE)
-    count = models.IntegerField()
+    name = models.CharField(max_length=255)
+    artist = models.CharField(max_length=255)
+    artist_image = models.URLField(max_length=200, blank=True)
+    played_at = models.DateTimeField()
+    recorded_at = models.DateTimeField(auto_now_add=True)
 
 class Genre(models.Model):
     name = models.CharField(max_length=255)

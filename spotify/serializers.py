@@ -19,7 +19,7 @@ class TopTrackSerializer(serializers.ModelSerializer):
 class ListeningHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ListeningHistory
-        fields = '__all__'
+        fields = ['name', 'artist', 'artist_image', 'played_at', 'recorded_at']
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
