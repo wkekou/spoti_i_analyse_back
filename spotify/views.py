@@ -11,7 +11,7 @@ def home(request):
 
 def update_spotify_data(request):
     fetch_spotify_data()
-    return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'success'}, status=200)
 
 
 class RecentTrackList(generics.ListCreateAPIView):
